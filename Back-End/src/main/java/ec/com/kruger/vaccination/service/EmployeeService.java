@@ -96,6 +96,10 @@ public class EmployeeService {
         return generaredCredentials;
     }
 
+    public List<Employee> getAllEmployees(){
+        return this.employeeRepository.findAll();
+    }
+    
     public Employee getEmployeeById(int id) {
         Optional<Employee> optionalEmployee = this.employeeRepository.findById(id);
         if (optionalEmployee.isEmpty()) {
@@ -139,6 +143,14 @@ public class EmployeeService {
                 this.vaccinationDetailRepository.save(vaccinationDetail);
             }
         }
+    }
+
+    public void deleteEmployeeById(int id) {
+        Optional<Employee> optionalEmployee = this.employeeRepository.findById(id);
+        if(optionalEmployee.isEmpty()){
+            throw new UserNotFoundException("User not found");
+        }
+        this.employeeRepository.delete(optionalEmployee.get());
     }
 
     public List<Employee> findByVaccinationStatus(boolean vaccinationStatus) {

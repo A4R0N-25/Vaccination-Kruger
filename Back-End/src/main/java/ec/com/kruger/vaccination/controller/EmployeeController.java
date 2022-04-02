@@ -13,19 +13,22 @@ import ec.com.kruger.vaccination.exception.InvalidDataException;
 import ec.com.kruger.vaccination.exception.UserNotFoundException;
 import ec.com.kruger.vaccination.model.Employee;
 import ec.com.kruger.vaccination.service.EmployeeService;
-import java.util.Date;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -35,12 +38,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/employee")
 @Slf4j
+@Api(tags = "Employee")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
     @PostMapping
+    @ApiOperation(value = "Add new employee",
+            notes = "Only admin can add a new employee")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful registration"),
+        @ApiResponse(code = 400, message = "Bad Request - Invalid data"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
     //@PreAuthorize("hasRole('ADM')")
     public ResponseEntity createEmployee(@RequestBody CreateEmployeeRQ employeeRequest) {
         try {
@@ -53,8 +63,29 @@ public class EmployeeController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    
+    @GetMapping
+    @ApiOperation(value = "Get all employees",
+            notes = "Get all employees")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful serch"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
+    public ResponseEntity getAllEmployees() {
+        try {
+            List<Employee> employees = this.employeeService.getAllEmployees();
+            return ResponseEntity.ok(employees);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
     @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Get employee by ID",
+            notes = "Get employee information by ID")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful serch"),
+        @ApiResponse(code = 404, message = "Not Found - User not found"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
     public ResponseEntity getEmployeeById(@PathVariable int id) {
         try {
             Employee employee = this.employeeService.getEmployeeById(id);
@@ -67,6 +98,12 @@ public class EmployeeController {
     }
 
     @PutMapping(value = "/{id}")
+    @ApiOperation(value = "Update employee by ID",
+            notes = "Update employee information by ID")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful update"),
+        @ApiResponse(code = 400, message = "Bad Request - Invalid data"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
     public ResponseEntity updateEmployeeById(@PathVariable int id, @RequestBody UpdateEmployeeRQ updateEmployeeRQ) {
         try {
             this.employeeService.updateEmployeeById(id, updateEmployeeRQ);
@@ -79,21 +116,47 @@ public class EmployeeController {
         }
     }
 
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "Delete employee by ID",
+            notes = "Delete employee by ID")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful update"),
+        @ApiResponse(code = 404, message = "Not Found - User not found"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
+    public ResponseEntity deleteEmployeeById(@PathVariable int id) {
+        try {
+            this.employeeService.deleteEmployeeById(id);
+            return ResponseEntity.ok().build();
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @GetMapping(value = "/filter/status/{status}")
+    @ApiOperation(value = "Filter by vaccination status",
+            notes = "Filter employees by vaccination status")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful search"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
     public ResponseEntity findEmployeesByVaccinationStatus(@PathVariable boolean status) {
         try {
             List<Employee> employees = this.employeeService.findByVaccinationStatus(status);
             return ResponseEntity.ok(employees);
-        } catch (InvalidDataException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             log.info("{}", e.getMessage());
             return ResponseEntity.internalServerError().build();
         }
     }
-    
+
     @PostMapping(value = "/filter/vaccination/dates")
-    public ResponseEntity findEmployeesByVaccinationStatus(@RequestBody FilterDatesRQ filterDatesRQ) {
+    @ApiOperation(value = "Filter by vaccination date range",
+            notes = "Filter employees by vaccination date range")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful search"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
+    public ResponseEntity findEmployeesByVaccinationDates(@RequestBody FilterDatesRQ filterDatesRQ) {
         try {
             List<Employee> employees = this.employeeService.findByDates(filterDatesRQ.getStart(), filterDatesRQ.getEnd());
             return ResponseEntity.ok(employees);
@@ -104,8 +167,13 @@ public class EmployeeController {
             return ResponseEntity.internalServerError().build();
         }
     }
-    
+
     @GetMapping(value = "/filter/vaccine/type/{type}")
+    @ApiOperation(value = "Filter by type of vaccine",
+            notes = "Filter employees by type of vaccine")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Ok - Successful search"),
+        @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
     public ResponseEntity findEmployeesByVaccineType(@PathVariable String type) {
         try {
             List<Employee> employees = this.employeeService.findByVaccineType(type);
