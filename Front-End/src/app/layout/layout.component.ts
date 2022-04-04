@@ -12,7 +12,7 @@ declare interface RouteInfo {
 }
 
 export const ROUTES: RouteInfo[] = [
-  { path: '/home', option: 'EMP', title: 'Test', icon: 'home', class: 'active' },
+  { path: '/home/employee-info/', option: 'EMP', title: 'Employee Info', icon: 'info', class: 'active' },
   { path: '/home/employee-list', option: 'ADM', title: 'Employee List', icon: 'list_alt', class: '' },
 ];
 
@@ -28,7 +28,7 @@ export class LayoutComponent implements OnInit {
 
   selected: string = "";
 
-  user: String | null = "";
+  //user: String | null = "";
 
   menuItems: any[] | undefined;
 
@@ -46,13 +46,12 @@ export class LayoutComponent implements OnInit {
       console.log(this.selected)
     });
     this.menuItems = ROUTES.filter(menuItem => menuItem);
-    this.user = sessionStorage.getItem('nombre');
+    //this.user = this.loginService.getItem('nombre');
     this.userInfo = this.loginService.getItem("userInfo")
   }
 
-  Salir() {
-    sessionStorage.clear();
-    console.log(sessionStorage.getItem('nombre'));
+  signOut() {
+    localStorage.clear();
     this.route.navigate([""]);
   }
 }

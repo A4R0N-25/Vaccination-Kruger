@@ -46,7 +46,7 @@ public class VaccinationDetail implements Serializable {
     private Integer vaccinationDose;
 
     @JoinColumn(name = "cod_vaccine", nullable = false)
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private VaccineType vaccineType;
 
     @JoinColumn(name = "cod_employee", nullable = false)

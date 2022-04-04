@@ -55,5 +55,14 @@ public class UserController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    
+    @GetMapping
+    public ResponseEntity checkToken(){
+        try {
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
 }

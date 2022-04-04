@@ -1,8 +1,45 @@
 <h1 style="text-align: center;"><b>Employees List</b></h1>
 <hr>
-<button mat-flat-button color="primary" (click)="addEmployee()">Add Employee</button>
-<br><br>
-<table class="table">
+<form [formGroup]="filter" (ngSubmit)="filterEmployee()">
+  <mat-form-field appearance="fill">
+    <mat-label>Filter Type</mat-label>
+    <mat-select formControlName="filterType">
+      <mat-option value="0">None</mat-option>
+      <mat-option value="1">Date Range</mat-option>
+      <mat-option value="2">Type of Vacccine</mat-option>
+      <mat-option value="3">Vaccination Status</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="filter.controls['filterType'].value=='3'">
+    <mat-label>Vaccination Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="0">true</mat-option>
+      <mat-option value="1">false</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" *ngIf="filter.controls['filterType'].value=='2'">
+    <mat-label>Type of Vacccine</mat-label>
+    <mat-select formControlName="type">
+      <mat-option value="Sputnik">Sputnik</mat-option>
+      <mat-option value="AstraZeneca">AstraZeneca</mat-option>
+      <mat-option value="Pfizer">Pfizer</mat-option>
+      <mat-option value="Jhonson&Jhonson">Jhonson&Jhonson</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div *ngIf="filter.controls['filterType'].value=='1'">
+    <label>Start Date</label>
+    <input type="date" class="form-control" formControlName="start" placeholder="date">
+    <label>End Date</label>
+    <input type="date" class="form-control" formControlName="end" placeholder="date">
+    <br>
+  </div>
+  <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+          (click)="filterEmployee()">
+          <mat-icon>search</mat-icon>
+        </button>
+  <button style="float: right;" mat-flat-button color="primary" (click)="addEmployee()">Add New Employee</button>
+</form>
+<table class="table" style="text-align: center;">
   <thead>
     <tr>
       <th scope="col">Id</th>
@@ -30,17 +67,20 @@
       <td>{{employee.address}}</td>
       <td>{{employee.vaccinationStatus}}</td>
       <td>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="infoEmployee(employee.id)">
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+          (click)="infoEmployee(employee.id)">
           <mat-icon>contact_page</mat-icon>
         </button>
       </td>
       <td>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="editEmployee(employee.id)">
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+          (click)="editEmployee(employee.id)">
           <mat-icon>edit</mat-icon>
         </button>
       </td>
       <td>
-        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="deleteEmployee(employee.id)">
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon"
+          (click)="deleteEmployee(employee.id)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>

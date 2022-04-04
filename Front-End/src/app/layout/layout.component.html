@@ -7,7 +7,7 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="nav-item" >
-                <a [routerLink]="[menuItem.path]" class="nav-link text-white"
+                <a [routerLink]="(menuItem.option == 'ADM'? menuItem.path : menuItem.path+userInfo.id)" class="nav-link text-white"
                     [ngClass]="{'active':  selected == menuItem.opcion}" aria-current="page" *ngIf="menuItem.option == userInfo.role">
                     <i class="material-icons">
                         {{menuItem.icon}}
@@ -23,10 +23,10 @@
                 <i class="material-icons">
                     account_circle
                 </i>
-                {{user}}
+                {{userInfo.username}}
             </a>
             <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                <li><a class="dropdown-item" (click)="Salir()" href="">Sign out</a></li>
+                <li><a class="dropdown-item" (click)="signOut()" href="">Sign out</a></li>
             </ul>
         </div>
     </div>

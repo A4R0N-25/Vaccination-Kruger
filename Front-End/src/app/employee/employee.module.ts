@@ -8,6 +8,11 @@ import { EmployeeCreateComponent } from './employee-create/employee-create.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeInfoComponent } from './employee-info/employee-info.component';
 import { EmployeeUpdateComponent } from './employee-update/employee-update.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatOptionModule } from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+
 
 
 
@@ -26,7 +31,10 @@ import { EmployeeUpdateComponent } from './employee-update/employee-update.compo
     MatButtonModule,
     MatIconModule,
     FormsModule, 
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatOptionModule,
+    MatSelectModule
   ]
 })
 export class EmployeeModule { }

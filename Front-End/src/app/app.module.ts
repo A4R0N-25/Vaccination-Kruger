@@ -13,6 +13,9 @@ import { LayoutComponent } from './layout/layout.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { CommonModule } from '@angular/common';
 import { EmployeeModule } from './employee/employee.module';
+import { AdminGuard } from './guards/admin.guard';
+import { LoginGuard } from './guards/login.guard';
+import { TokenGuard } from './guards/token.guard';
 
 
 
@@ -39,7 +42,10 @@ import { EmployeeModule } from './employee/employee.module';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
-    }
+    },
+    AdminGuard,
+    LoginGuard,
+    TokenGuard
   ],
   bootstrap: [AppComponent]
 })

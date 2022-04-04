@@ -46,7 +46,7 @@ public class EmployeeController {
         @ApiResponse(code = 200, message = "Ok - Successful registration"),
         @ApiResponse(code = 400, message = "Bad Request - Invalid data"),
         @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
-    //@PreAuthorize("hasRole('ADM')")
+    @PreAuthorize("hasRole('ADM')")
     public ResponseEntity createEmployee(@RequestBody CreateEmployeeRQ employeeRequest) {
         try {
             LoginRequest generatedCredentials = this.employeeService.registerEmployee(employeeRequest);
@@ -76,7 +76,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/{id}")
-    //@PreAuthorize("hasRole('ADM')")
+    @PreAuthorize("hasRole('ADM') OR hasRole('EMP')")
     @ApiOperation(value = "Get employee by ID",
             notes = "Get employee information by ID")
     @ApiResponses(value = {
@@ -95,6 +95,7 @@ public class EmployeeController {
     }
 
     @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADM') OR hasRole('EMP')")
     @ApiOperation(value = "Update employee by ID",
             notes = "Update employee information by ID")
     @ApiResponses(value = {
@@ -102,19 +103,20 @@ public class EmployeeController {
         @ApiResponse(code = 400, message = "Bad Request - Invalid data"),
         @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
     public ResponseEntity updateEmployeeById(@PathVariable int id, @RequestBody UpdateEmployeeRQ updateEmployeeRQ) {
-        //try {
+        try {
             this.employeeService.updateEmployeeById(id, updateEmployeeRQ);
             return ResponseEntity.ok().build();
-        /*} catch (InvalidDataException e) {
+        } catch (InvalidDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             log.info("{}", e.getMessage());
             log.info("{}", e.getCause());
             return ResponseEntity.internalServerError().build();
-        }*/
+        }
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADM')")
     @ApiOperation(value = "Delete employee by ID",
             notes = "Delete employee by ID")
     @ApiResponses(value = {
@@ -133,6 +135,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/filter/status/{status}")
+    @PreAuthorize("hasRole('ADM')")
     @ApiOperation(value = "Filter by vaccination status",
             notes = "Filter employees by vaccination status")
     @ApiResponses(value = {
@@ -149,6 +152,7 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/filter/vaccination/dates")
+    @PreAuthorize("hasRole('ADM')")
     @ApiOperation(value = "Filter by vaccination date range",
             notes = "Filter employees by vaccination date range")
     @ApiResponses(value = {
@@ -167,6 +171,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/filter/vaccine/type/{type}")
+    @PreAuthorize("hasRole('ADM')")
     @ApiOperation(value = "Filter by type of vaccine",
             notes = "Filter employees by type of vaccine")
     @ApiResponses(value = {

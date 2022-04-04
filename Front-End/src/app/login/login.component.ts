@@ -12,7 +12,7 @@ import { LoginService } from '../services/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private route: Router, private loginService: LoginService,private _snackBar: MatSnackBar) { }
+  constructor(private route: Router, private loginService: LoginService, private _snackBar: MatSnackBar) { }
 
   private ls = window.localStorage;
 
@@ -29,33 +29,35 @@ export class LoginComponent implements OnInit {
 
   validate() {
     let user = {
-    username : this.login.controls['username'].value,
-    password : this.login.controls['password'].value
+      username: this.login.controls['username'].value,
+      password: this.login.controls['password'].value
     }
 
-    this.loginService.login(user).then((data : any) => {
+    this.loginService.login(user).then((data: any) => {
       Swal.fire({
         position: 'top-end',
         icon: 'success',
-        title: 'Welcome '+user.username+'!',
+        title: 'Welcome ' + user.username + '!',
         showConfirmButton: false,
         timer: 1500
       })
+      this.loginService.validation = true
       let userInfo = {
         username: data.username,
         role: data.role,
-        token: data.token
+        token: data.token,
+        id: data.id
       }
-      console.log("Guardando")
+      //console.log("Guardando")
       this.ls.setItem('userInfo', JSON.stringify(userInfo))
-      if(userInfo.role=="ADM"){
+      if (userInfo.role == "ADM") {
         this.route.navigate(["home/employee-list"]);
-      }else{
-        this.route.navigate(["home/employee-info"]);
+      } else {
+        this.route.navigate(["home/employee-info/" + userInfo.id]);
       }
-    },(err: any) => {
+    }, (err: any) => {
       console.log(err)
-      this._snackBar.open(err.error, "close",{duration:2500});
+      this._snackBar.open(err.error, "close", { duration: 2500 });
       this.login.controls['password'].reset();
       this.login.markAllAsTouched();
     })

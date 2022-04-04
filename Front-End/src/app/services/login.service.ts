@@ -10,8 +10,14 @@ export class LoginService {
 
     private ls = window.localStorage;
 
+    public validation = false
+
     login(loginRequest:any){
         return this.http.post(`${environment.apiUrl}/login`,loginRequest).toPromise()
+    }
+
+    validateToken(){
+        return this.http.get(`${environment.apiUrl}/login`).toPromise()
     }
 
     public getItem(key: any) {

@@ -29,4 +29,16 @@ export class EmployeeService {
         return this.http.delete(`${environment.apiUrl}/employee/${id}`).toPromise()
     }
 
+    getEmployeesByVaccinationStatus(status: boolean){
+        return this.http.get(`${environment.apiUrl}/employee/filter/status/${status}`).toPromise()
+    }
+
+    getEmployeesByVaccinationType(type:string){
+        return this.http.get(`${environment.apiUrl}/employee/filter/vaccine/type/${type}`).toPromise()
+    }
+
+    getEmployeeByVaccinationDateRange(dateInfo: any){
+        return this.http.post(`${environment.apiUrl}/employee/filter/vaccination/dates`, dateInfo).toPromise()
+    }
+
 }

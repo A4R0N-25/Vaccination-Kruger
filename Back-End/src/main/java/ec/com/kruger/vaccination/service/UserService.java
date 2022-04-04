@@ -37,11 +37,9 @@ public class UserService {
 
     public LoginResponse login(LoginRequest loginRequest) throws Exception {
         Optional<User> optionalUser = this.userRespository.findByUsername(loginRequest.getUsername());
-        //log.info("Usuario: {}", optionalUser.get());
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("User not found");
         }
-        log.info("PASS: {}",Encrypt.encryptPassword(loginRequest.getPassword()));
         if (!optionalUser.get().getPassword().equals(Encrypt.encryptPassword(loginRequest.getPassword()))) {
             throw new InvalidPasswordException("The password doesn't match");
         }
@@ -50,6 +48,7 @@ public class UserService {
                 .username(optionalUser.get().getUsername())
                 .role(optionalUser.get().getRole())
                 .token(getJWTToken(optionalUser.get().getUsername(),optionalUser.get().getRole()))
+                .id(optionalUser.get().getId())
                 .build();
         return loginResponse;
     }

@@ -109,7 +109,6 @@ public class EmployeeService {
     }
 
     public void updateEmployeeById(int id, UpdateEmployeeRQ updateEmployeeRQ) {
-        log.info("UPD: {}", updateEmployeeRQ);
         if (!updateEmployeeRQ.getVaccinationStatus() && updateEmployeeRQ.getVaccinationDetails().size() > 0 ) {
             throw new InvalidDataException("If you have not been vaccinated you cannot add details");
         }
@@ -120,9 +119,17 @@ public class EmployeeService {
         if (optionalEmployee.isEmpty()) {
             throw new UserNotFoundException("Employee not found");
         }
+        if (!validateEmail(updateEmployeeRQ.getEmail()) || !validateNames(updateEmployeeRQ.getNames(), updateEmployeeRQ.getSurnames())) {
+            throw new InvalidDataException("Invalid field information");
+        }
+        if(updateEmployeeRQ.getPhone()!= null){
+            if(!validatePhone(updateEmployeeRQ.getPhone())){
+                throw new InvalidDataException("Invalid phone");
+            }
+        }
         Employee employee = optionalEmployee.get();
-        employee.setNames(updateEmployeeRQ.getNames());
-        employee.setSurnames(updateEmployeeRQ.getSurnames());
+        employee.setNames(updateEmployeeRQ.getNames().toUpperCase());
+        employee.setSurnames(updateEmployeeRQ.getSurnames().toUpperCase());
         employee.setBirthday(updateEmployeeRQ.getBirthday());
         employee.setAddress(updateEmployeeRQ.getAddress());
         employee.setPhone(updateEmployeeRQ.getPhone());
@@ -164,6 +171,7 @@ public class EmployeeService {
     }
 
     public List<Employee> findByVaccineType(String vaccineType) {
+        log.info("TYPE: {}", this.vaccineTypeRepository.findAll());
         Optional<VaccineType> optionalVaccineType = this.vaccineTypeRepository.findByName(vaccineType);
         if (optionalVaccineType.isEmpty()) {
             throw new InvalidDataException("Type of vaccine not found");
@@ -214,6 +222,15 @@ public class EmployeeService {
     private boolean validateEmail(String mail) {
         Pattern pat = Pattern.compile("([a-z0-9]+(\\.?[a-z0-9])*)+@(([a-z]+)\\.([a-z])+(.[a-z]+))");
         Matcher mather = pat.matcher(mail);
+        return mather.find();
+    }
+    
+    private boolean validatePhone(String phone){
+        if(phone.length()!=10){
+            return false;
+        }
+        Pattern pat = Pattern.compile("[0-9]");
+        Matcher mather = pat.matcher(phone);
         return mather.find();
     }
 

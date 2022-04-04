@@ -21,6 +21,8 @@ export class EmployeeUpdateComponent implements OnInit {
 
   public flag: Boolean = false
 
+  public dt : Date = new Date()
+
   ngOnInit(): void {
     this.employeeService.getEmployeeById(this.employeeId).then((res: any) => {
       this.employeeInfo = res
@@ -39,39 +41,47 @@ export class EmployeeUpdateComponent implements OnInit {
   }
 
   employee = new FormGroup({
-    identification: new FormControl('', [Validators.required]),
     names: new FormControl('', [Validators.required]),
     surnames: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.email]), // we can use regular expressions to validate email
-    birthday: new FormControl(''),
-    phone: new FormControl(''),
-    address: new FormControl(''),
-    status: new FormControl(''),
+    birthday: new FormControl('', [Validators.required]),
+    phone: new FormControl('', [Validators.required]),
+    address: new FormControl('', [Validators.required]),
+    status: new FormControl('', [Validators.required]),
     vaccine: new FormControl(''),
     date: new FormControl(''),
     dose: new FormControl('')
   });
 
   setEmployeeInfo() {
-    this.employee.controls.identification.setValue(this.employeeInfo.identification)
     this.employee.controls.names.setValue(this.employeeInfo.names)
     this.employee.controls.surnames.setValue(this.employeeInfo.surnames)
     this.employee.controls.email.setValue(this.employeeInfo.email)
     this.employee.controls.birthday.setValue(this.employeeInfo.birthday)
     this.employee.controls.phone.setValue(this.employeeInfo.phone)
     this.employee.controls.address.setValue(this.employeeInfo.address)
-    this.employee.controls.status.setValue(this.employeeInfo.status)
+    this.employee.controls.status.setValue(this.employeeInfo.vaccinationStatus)
   }
 
-  create() {
+  update() {
+    if(!this.employee.valid){
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Complete all fields',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      return
+    }
+    
     let detail = {
       vaccineType: this.employee.controls['vaccine'].value,
-      vaccineDate: this.employee.controls['date'].value,
-      vaccineDose: this.employee.controls['dose'].value
+      vaccinationDate: this.employee.controls['date'].value,
+      vaccinationDose: this.employee.controls['dose'].value
     }
 
     let user = {
-      identification: this.employee.controls['identification'].value,
       names: this.employee.controls['names'].value,
       surnames: this.employee.controls['surnames'].value,
       email: this.employee.controls['email'].value,
@@ -101,7 +111,7 @@ export class EmployeeUpdateComponent implements OnInit {
         icon: 'info',
         title: 'User Update'
       })
-      this.router.navigate(["home/employee-list"]);
+      this.router.navigate(["home/employee-info/"+this.employeeId]);
     }, err => {
       Swal.fire({
         position: 'top-end',

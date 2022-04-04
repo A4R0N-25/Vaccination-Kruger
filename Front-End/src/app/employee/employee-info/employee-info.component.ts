@@ -21,6 +21,7 @@ export class EmployeeInfoComponent implements OnInit {
   ngOnInit(): void {
     this.employeeService.getEmployeeById(this.employeeId).then((res: any) => {
       this.employee=res
+      console.log("EMP: ",this.employee)
     }, err => {
       Swal.fire({
         position: 'top-end',

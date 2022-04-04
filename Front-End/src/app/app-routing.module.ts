@@ -4,6 +4,9 @@ import { EmployeeCreateComponent } from './employee/employee-create/employee-cre
 import { EmployeeInfoComponent } from './employee/employee-info/employee-info.component';
 import { EmployeeUpdateComponent } from './employee/employee-update/employee-update.component';
 import { EmployeesListComponent } from './employee/employees-list/employees-list.component';
+import { AdminGuard } from './guards/admin.guard';
+import { LoginGuard } from './guards/login.guard';
+import { TokenGuard } from './guards/token.guard';
 import { LayoutComponent } from './layout/layout.component';
 import { LoginComponent } from './login/login.component';
 
@@ -15,14 +18,17 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent,
+    canActivate: [LoginGuard],
+    component: LoginComponent
   },
   {
     path: 'home',
+    canActivate: [TokenGuard],
     component: LayoutComponent,
     children:[
       {
         path: "employee-list",
+        canActivate: [AdminGuard],
         component:EmployeesListComponent
       },
       {
