@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -50,6 +51,7 @@ public class EmployeeService {
     @Autowired
     private VaccineTypeRepository vaccineTypeRepository;
 
+    @Transactional
     public LoginRequest registerEmployee(CreateEmployeeRQ createEmployeeRequest) throws Exception {
         List<Employee> employees = this.employeeRepository.findByIdentification(createEmployeeRequest.getIdentification());
         if (!employees.isEmpty()) {
@@ -83,10 +85,11 @@ public class EmployeeService {
         String password = username + "123";
         User user = User.builder()
                 .username(username)
-                .password(Encrypt.encryptPassword(password))
+                .password(password)
                 .employee(newEmployee)
                 .role("EMP")
                 .build();
+        log.info("INFO: {}", user);
         this.userRespository.save(user);
 
         LoginRequest generaredCredentials = LoginRequest.builder()

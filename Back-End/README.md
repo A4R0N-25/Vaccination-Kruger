@@ -13,5 +13,5 @@ This project was created with Spring Boot version 2.6.6 and Java 11
 `$ mvn clean install`
 
 ## Run the Project
-`$ cd target`
+`$ cd target`__
 `$ java -jar vaccination-1.jar`

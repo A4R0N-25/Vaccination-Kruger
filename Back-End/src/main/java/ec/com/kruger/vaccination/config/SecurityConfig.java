@@ -39,11 +39,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/webjars/**",
         "*",
         "**",
-        "http://localhost:4200",
-        "http://localhost:4200/*",
-        "http://localhost:4200/**",
-        "http://localhost:4200/*/*/*",
-        "http://localhost:4200/**/**/**",
             
     };
 
@@ -55,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/login").permitAll()
+                //.antMatchers(HttpMethod.GET, "/api/v1/login").permitAll()
+                
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated();
     }
