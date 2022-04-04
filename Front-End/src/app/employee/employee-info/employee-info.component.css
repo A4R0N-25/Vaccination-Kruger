@@ -1,0 +1,12 @@
+th{
+    text-align: left;
+    padding: 30px;
+}
+
+table{
+    margin-left: auto;
+    margin-right: auto;
+    font-size: large;
+    border: 5px;
+    border-style: solid;
+}

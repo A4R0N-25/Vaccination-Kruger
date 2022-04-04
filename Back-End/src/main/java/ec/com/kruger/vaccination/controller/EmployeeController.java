@@ -23,19 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  *
  * @author bran-
  */
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v1/employee")
 @Slf4j
@@ -52,7 +46,7 @@ public class EmployeeController {
         @ApiResponse(code = 200, message = "Ok - Successful registration"),
         @ApiResponse(code = 400, message = "Bad Request - Invalid data"),
         @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
-    @PreAuthorize("hasRole('ADM')")
+    //@PreAuthorize("hasRole('ADM')")
     public ResponseEntity createEmployee(@RequestBody CreateEmployeeRQ employeeRequest) {
         try {
             LoginRequest generatedCredentials = this.employeeService.registerEmployee(employeeRequest);
@@ -66,6 +60,7 @@ public class EmployeeController {
     }
     
     @GetMapping
+    //@PreAuthorize("hasRole('ADM')")
     @ApiOperation(value = "Get all employees",
             notes = "Get all employees")
     @ApiResponses(value = {
@@ -81,7 +76,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasRole('EMP')")
+    //@PreAuthorize("hasRole('ADM')")
     @ApiOperation(value = "Get employee by ID",
             notes = "Get employee information by ID")
     @ApiResponses(value = {
@@ -107,15 +102,16 @@ public class EmployeeController {
         @ApiResponse(code = 400, message = "Bad Request - Invalid data"),
         @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
     public ResponseEntity updateEmployeeById(@PathVariable int id, @RequestBody UpdateEmployeeRQ updateEmployeeRQ) {
-        try {
+        //try {
             this.employeeService.updateEmployeeById(id, updateEmployeeRQ);
             return ResponseEntity.ok().build();
-        } catch (InvalidDataException e) {
+        /*} catch (InvalidDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             log.info("{}", e.getMessage());
+            log.info("{}", e.getCause());
             return ResponseEntity.internalServerError().build();
-        }
+        }*/
     }
 
     @DeleteMapping(value = "/{id}")

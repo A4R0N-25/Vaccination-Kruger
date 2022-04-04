@@ -1,0 +1,48 @@
+<h1 style="text-align: center;"><b>Employee Information</b></h1>
+<hr style="border:2px; border: solid; color: black;">
+<div style="text-align: center;">
+    <table>
+        <tr>
+            <th scope="row">Identification:</th>
+            <td>{{employee.identification}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Names:</th>
+            <td>{{employee.names}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Surnames</th>
+            <td>{{employee.surnames}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Birthday:</th>
+            <td>{{employee.birthday}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Email:</th>
+            <td>{{employee.email}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Phone:</th>
+            <td>{{employee.phone}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Address:</th>
+            <td>{{employee.address}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Vaccination Status:</th>
+            <td>{{employee.vaccinationStatus}}</td>
+        </tr>
+        <tr *ngIf="employee.vaccinationStatus==true">
+            <th scope="row">Vaccination Description:</th>
+            <td *ngFor="let desc of employee.vaccinationDetails">
+                <b>Vacinne: </b>{{desc.vaccineType.name}} <br>
+                <b>Vacinnation Date: </b>{{desc.vaccinationDate}} <br>
+                <b>Vaccine Dose: </b>{{desc.vaccinationDose}} <br><br>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <button mat-flat-button color="primary" (click)="editEmployee()">Edit</button>
+</div>

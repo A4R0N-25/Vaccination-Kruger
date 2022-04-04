@@ -5,6 +5,7 @@
  */
 package ec.com.kruger.vaccination.dao;
 
+import ec.com.kruger.vaccination.model.Employee;
 import ec.com.kruger.vaccination.model.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRespository extends JpaRepository<User, Integer>{
     
     Optional<User> findByUsername (String username);
+    Optional<User> findByEmployee (Employee employee);
 }

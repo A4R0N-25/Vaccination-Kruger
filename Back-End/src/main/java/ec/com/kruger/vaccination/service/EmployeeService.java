@@ -109,7 +109,8 @@ public class EmployeeService {
     }
 
     public void updateEmployeeById(int id, UpdateEmployeeRQ updateEmployeeRQ) {
-        if (!updateEmployeeRQ.getVaccinationStatus() && updateEmployeeRQ.getVaccinationDetails().size() > 0) {
+        log.info("UPD: {}", updateEmployeeRQ);
+        if (!updateEmployeeRQ.getVaccinationStatus() && updateEmployeeRQ.getVaccinationDetails().size() > 0 ) {
             throw new InvalidDataException("If you have not been vaccinated you cannot add details");
         }
         if (updateEmployeeRQ.getVaccinationStatus() && updateEmployeeRQ.getVaccinationDetails().isEmpty()) {
@@ -150,6 +151,11 @@ public class EmployeeService {
         if(optionalEmployee.isEmpty()){
             throw new UserNotFoundException("User not found");
         }
+        Optional<User> optionalUser = this.userRespository.findByEmployee(optionalEmployee.get());
+        if(optionalUser.isEmpty()){
+            throw new UserNotFoundException("User not found");
+        }
+        this.userRespository.delete(optionalUser.get());
         this.employeeRepository.delete(optionalEmployee.get());
     }
 

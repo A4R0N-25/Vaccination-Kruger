@@ -1,0 +1,117 @@
+<div class="text-center" style="width: 30%; margin: auto;">
+    <form class="form-signin" [formGroup]="employee" (ngSubmit)="create()">
+        <img class="mb-4" src="https://krugercorp.com/wp-content/uploads/2022/02/KRUGER-icon-naranja-03.png" alt=""
+            width="100" height="98.27">
+        <h1 class="h3 mb-3 font-weight-normal"><b>Edit Information</b></h1>
+        <label>Identification</label>
+        <input class="form-control" formControlName="identification" placeholder="Identification">
+        <div *ngIf="employee.controls['identification'].invalid && (employee.controls['identification'].dirty || employee.controls['identification'].touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="employee.controls['identification'].errors?.required">
+                identification is required
+            </div>
+        </div>
+        <br>
+        <label>Names</label>
+        <input class="form-control" formControlName="names" placeholder="Names">
+        <div *ngIf="employee.controls['names'].invalid && (employee.controls['names'].dirty || employee.controls['names'].touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="employee.controls['names'].errors?.required">
+                Names is required
+            </div>
+        </div>
+        <br>
+        <label>Surnames</label>
+        <input class="form-control" formControlName="surnames" placeholder="surnames">
+        <div *ngIf="employee.controls['surnames'].invalid && (employee.controls['surnames'].dirty || employee.controls['surnames'].touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="employee.controls['surnames'].errors?.required">
+                Surnames is required
+            </div>
+        </div>
+        <br>
+        <label>Email</label>
+        <input class="form-control" formControlName="email" placeholder="email">
+        <div *ngIf="employee.controls['email'].invalid && (employee.controls['email'].dirty || employee.controls['email'].touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="employee.controls['email'].errors?.required">
+                Email is required
+            </div>
+        </div>
+        <br>
+        <label>Birthday</label>
+        <input type="date" class="form-control" formControlName="birthday" placeholder="birthday">
+        <div *ngIf="employee.controls['birthday'].invalid && (employee.controls['birthday'].dirty || employee.controls['birthday'].touched)"
+            class="alert alert-danger">
+
+            <div *ngIf="employee.controls['birthday'].errors?.required">
+               birthday is required
+            </div>
+        </div>
+        <br>
+        <label>Phone</label>
+        <input class="form-control" formControlName="phone" placeholder="phone">
+        <br>
+        <label>Address</label>
+        <input class="form-control" formControlName="address" placeholder="address">
+        <br>
+        <label>Vaccination Status</label>
+        <select class="form-select" formControlName="status" aria-label="Default select example">
+            <option selected>Open this select menu</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        <!-- <input class="form-control" formControlName="status" placeholder="status"> -->
+        <!-- <select class="form-select" formControlName="status" aria-label="Default select example">
+            <option value="1">Sputnik</option>
+            <option value="2">AstraZeneca</option>
+            <option value="3">Pfizer</option>
+            <option value="3">Jhonson&Jhonson</option>
+          </select> -->
+        <br>
+        <div *ngIf="this.employee.controls['status'].value == 'true'">
+            <h2><b>Vaccination Details</b></h2>
+            <label>Type of Vaccine</label>
+            <select class="form-select" formControlName="vaccine" aria-label="Default select example">
+                <option value="1">Sputnik</option>
+                <option value="2">AstraZeneca</option>
+                <option value="3">Pfizer</option>
+                <option value="3">Jhonson&Jhonson</option>
+              </select>
+            <div *ngIf="employee.controls['vaccine'].invalid && (employee.controls['vaccine'].dirty || employee.controls['vaccine'].touched)"
+                class="alert alert-danger">
+
+                <div *ngIf="employee.controls['vaccine'].errors?.required">
+                    vaccine is required
+                </div>
+            </div>
+            <br>
+            <label>date</label>
+            <input type="date" class="form-control" formControlName="date" placeholder="date">
+            <div *ngIf="employee.controls['date'].invalid && (employee.controls['date'].dirty || employee.controls['date'].touched)"
+                class="alert alert-danger">
+
+                <div *ngIf="employee.controls['date'].errors?.required">
+                    date is required
+                </div>
+            </div>
+            <br>
+            <label>dose</label>
+            <input type="number" class="form-control" formControlName="dose" placeholder="dose">
+            <div *ngIf="employee.controls['dose'].invalid && (employee.controls['dose'].dirty || employee.controls['dose'].touched)"
+                class="alert alert-danger">
+
+                <div *ngIf="employee.controls['dose'].errors?.required">
+                    dose is required
+                </div>
+            </div>
+            <br>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
+        <br>
+    </form>
+</div>

@@ -1,0 +1,36 @@
+<main>
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark sidebar">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <i class="material-icons">menu_book</i>
+            <span class="fs-4"> Kruger Vaccination</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="nav-item" >
+                <a [routerLink]="[menuItem.path]" class="nav-link text-white"
+                    [ngClass]="{'active':  selected == menuItem.opcion}" aria-current="page" *ngIf="menuItem.option == userInfo.role">
+                    <i class="material-icons">
+                        {{menuItem.icon}}
+                    </i>
+                    <p class="menu">{{menuItem.title}}</p>
+                </a>
+            </li>
+        </ul>
+        <hr>
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="material-icons">
+                    account_circle
+                </i>
+                {{user}}
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" (click)="Salir()" href="">Sign out</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="content" style="overflow-y: scroll;">
+        <router-outlet></router-outlet>
+    </div>
+</main>

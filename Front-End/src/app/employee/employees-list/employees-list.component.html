@@ -1,0 +1,49 @@
+<h1 style="text-align: center;"><b>Employees List</b></h1>
+<hr>
+<button mat-flat-button color="primary" (click)="addEmployee()">Add Employee</button>
+<br><br>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Names</th>
+      <th scope="col">Surnames</th>
+      <th scope="col">Identification</th>
+      <th scope="col">Birthday</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Address</th>
+      <th scope="col">Vaccination Status</th>
+      <th scope="col">Options</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employees">
+      <th scope="row">{{employee.id}}</th>
+      <td>{{employee.names}}</td>
+      <td>{{employee.surnames}}</td>
+      <td>{{employee.identification}}</td>
+      <td>{{employee.birthday}}</td>
+      <td>{{employee.email}}</td>
+      <td>{{employee.phone}}</td>
+      <td>{{employee.address}}</td>
+      <td>{{employee.vaccinationStatus}}</td>
+      <td>
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="infoEmployee(employee.id)">
+          <mat-icon>contact_page</mat-icon>
+        </button>
+      </td>
+      <td>
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="editEmployee(employee.id)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </td>
+      <td>
+        <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="deleteEmployee(employee.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

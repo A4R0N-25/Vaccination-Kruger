@@ -41,6 +41,7 @@ public class UserService {
         if (optionalUser.isEmpty()) {
             throw new UserNotFoundException("User not found");
         }
+        log.info("PASS: {}",Encrypt.encryptPassword(loginRequest.getPassword()));
         if (!optionalUser.get().getPassword().equals(Encrypt.encryptPassword(loginRequest.getPassword()))) {
             throw new InvalidPasswordException("The password doesn't match");
         }
