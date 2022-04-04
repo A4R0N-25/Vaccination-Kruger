@@ -60,7 +60,7 @@ public class EmployeeController {
     }
     
     @GetMapping
-    //@PreAuthorize("hasRole('ADM')")
+    @PreAuthorize("hasRole('ADM')")
     @ApiOperation(value = "Get all employees",
             notes = "Get all employees")
     @ApiResponses(value = {

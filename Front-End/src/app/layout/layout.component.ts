@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LoginService } from '../services/login.service';
+import Swal from 'sweetalert2';
 
 declare interface RouteInfo {
   path: string;
@@ -28,25 +29,28 @@ export class LayoutComponent implements OnInit {
 
   selected: string = "";
 
-  //user: String | null = "";
-
   menuItems: any[] | undefined;
 
   userInfo : any
 
   ngOnInit() {
-    /*console.log(sessionStorage.getItem('nombre'));
-    if (sessionStorage.getItem('nombre') == null) {
-      this.route.navigate([""]);
-    }*/
+    this.loginService.validateToken().then(res =>{
+    }, err =>{
+      Swal.fire({
+        position: 'top-end',
+        icon: 'warning',
+        title: 'Session Expired',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      this.signOut()
+    })
     this.selected = (this.location.path().split("/"))[2];
-    console.log(this.selected)
     this.location.onUrlChange(val => {
       this.selected = (val.split("/"))[2];
       console.log(this.selected)
     });
     this.menuItems = ROUTES.filter(menuItem => menuItem);
-    //this.user = this.loginService.getItem('nombre');
     this.userInfo = this.loginService.getItem("userInfo")
   }
 

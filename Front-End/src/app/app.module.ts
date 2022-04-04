@@ -15,8 +15,6 @@ import { CommonModule } from '@angular/common';
 import { EmployeeModule } from './employee/employee.module';
 import { AdminGuard } from './guards/admin.guard';
 import { LoginGuard } from './guards/login.guard';
-import { TokenGuard } from './guards/token.guard';
-
 
 
 @NgModule({
@@ -31,7 +29,7 @@ import { TokenGuard } from './guards/token.guard';
     BrowserAnimationsModule,
     MatSnackBarModule,
     ServicesModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     CommonModule,
@@ -44,8 +42,7 @@ import { TokenGuard } from './guards/token.guard';
       multi: true,
     },
     AdminGuard,
-    LoginGuard,
-    TokenGuard
+    LoginGuard
   ],
   bootstrap: [AppComponent]
 })

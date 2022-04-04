@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
         token: data.token,
         id: data.id
       }
-      //console.log("Guardando")
       this.ls.setItem('userInfo', JSON.stringify(userInfo))
       if (userInfo.role == "ADM") {
         this.route.navigate(["home/employee-list"]);
@@ -56,7 +55,6 @@ export class LoginComponent implements OnInit {
         this.route.navigate(["home/employee-info/" + userInfo.id]);
       }
     }, (err: any) => {
-      console.log(err)
       this._snackBar.open(err.error, "close", { duration: 2500 });
       this.login.controls['password'].reset();
       this.login.markAllAsTouched();

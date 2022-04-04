@@ -106,7 +106,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void registerEmployee() {
+    void givenEmployeeRegisterEmployee() {
         try {
             when(employeeRepository.findByIdentification(any())).thenReturn(new ArrayList<>());
             when(employeeRepository.findByEmail(any())).thenReturn(new ArrayList<>());
@@ -136,7 +136,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void getEmployeeById() {
+    void givenIdReturnEmployee() {
         try {
             when(employeeRepository.findById(any())).thenReturn(java.util.Optional.of(employee1));
             Assertions.assertEquals(employee1,employeeService.getEmployeeById(1));
@@ -146,7 +146,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void updateEmployeeById() {
+    void givenUpdateEmployeeRQAndIdUpdateEmployee() {
         try {
             when(vaccineTypeRepository.findById(any())).thenReturn(java.util.Optional.of(vaccineType));
             when(employeeRepository.findById(any())).thenReturn(java.util.Optional.of(employee2));
@@ -172,7 +172,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void deleteEmployeeById() {
+    void givenIdDeleteEmployee() {
         try {
             when(employeeRepository.findById(any())).thenReturn(java.util.Optional.of(employee1));
             employeeService.deleteEmployeeById(1);
@@ -183,7 +183,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findByVaccinationStatus() {
+    void givenVaccinationStatusReturnEmployees() {
         try {
             List<Employee> testEmployees = new ArrayList<>();
             testEmployees.add(employee2);
@@ -195,7 +195,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findByVaccineType() {
+    void givenVaccineTypeReturnEmployees() {
         try {
             when(vaccineTypeRepository.findByName(any())).thenReturn(java.util.Optional.of(vaccineType));
             when(vaccinationDetailRepository.findByVaccineType(vaccineType)).thenReturn(vaccinationDetailList);
@@ -206,7 +206,7 @@ class EmployeeServiceTest {
     }
 
     @Test
-    void findByDates() {
+    void givenDateRangeVaccinationReturnEmployees() {
         try {
             when(vaccinationDetailRepository.findByVaccinationDateBetween(any(),any())).thenReturn(vaccinationDetailList);
             Assertions.assertEquals(employeeList,employeeService.findByDates(new Date(), new Date()));

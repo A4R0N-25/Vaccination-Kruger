@@ -48,7 +48,7 @@ public class UserService {
                 .username(optionalUser.get().getUsername())
                 .role(optionalUser.get().getRole())
                 .token(getJWTToken(optionalUser.get().getUsername(),optionalUser.get().getRole()))
-                .id(optionalUser.get().getId())
+                .id(optionalUser.get().getEmployee().getId())
                 .build();
         return loginResponse;
     }

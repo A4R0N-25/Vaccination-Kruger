@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { LoginService } from 'src/app/services/login.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -10,7 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class EmployeeInfoComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, private router: Router) {
+  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, private router: Router,
+    private loginService: LoginService) {
     this.employeeId = this.route.snapshot.params['id'];
   }
 
@@ -19,6 +21,7 @@ export class EmployeeInfoComponent implements OnInit {
   public employee : any
 
   ngOnInit(): void {
+    console.log("ID: ", this.employeeId)
     this.employeeService.getEmployeeById(this.employeeId).then((res: any) => {
       this.employee=res
       console.log("EMP: ",this.employee)
@@ -30,7 +33,9 @@ export class EmployeeInfoComponent implements OnInit {
         showConfirmButton: false,
         timer: 1500
       })
-      this.router.navigate(["home/employee-list"]);
+      if(this.loginService.getItem("userInfo").role == "ADM"){
+        this.router.navigate(["home/employee-list"]);
+      }
     })
   }
 

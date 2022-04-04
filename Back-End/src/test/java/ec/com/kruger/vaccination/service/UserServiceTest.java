@@ -69,7 +69,7 @@ class UserServiceTest {
     }
 
     @Test
-    void login() {
+    void givenCorrectLoginRQReturnLoginRS() {
         try {
             when(userRespository.findByUsername(any())).thenReturn(java.util.Optional.of(user));
             //log.info("info: {}",userService.login(loginRequest1));
@@ -82,7 +82,7 @@ class UserServiceTest {
     }
 
     @Test
-    void loginWithWrongUser() {
+    void givenWrongUserReturnUserNotFound() {
         try {
             when(userRespository.findByUsername(any())).thenReturn(Optional.empty());
             log.info("info: {}",userService.login(loginRequest2));
@@ -93,7 +93,7 @@ class UserServiceTest {
     }
 
     @Test
-    void loginWithWrongPassword() {
+    void givenWrongPasswordReturnBadRequest() {
         try {
             when(userRespository.findByUsername(any())).thenReturn(java.util.Optional.of(user));
             log.info("info: {}",userService.login(loginRequest3));
