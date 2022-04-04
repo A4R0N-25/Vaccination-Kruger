@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,7 +52,7 @@ public class EmployeeController {
         @ApiResponse(code = 200, message = "Ok - Successful registration"),
         @ApiResponse(code = 400, message = "Bad Request - Invalid data"),
         @ApiResponse(code = 500, message = "Internal Server Error - Server error during process")})
-    //@PreAuthorize("hasRole('ADM')")
+    @PreAuthorize("hasRole('ADM')")
     public ResponseEntity createEmployee(@RequestBody CreateEmployeeRQ employeeRequest) {
         try {
             LoginRequest generatedCredentials = this.employeeService.registerEmployee(employeeRequest);
@@ -80,6 +81,7 @@ public class EmployeeController {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasRole('EMP')")
     @ApiOperation(value = "Get employee by ID",
             notes = "Get employee information by ID")
     @ApiResponses(value = {
